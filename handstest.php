@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="ht_styles.css">  
 </head>
 <body>
-<? require("handstest_logic.php")?>
+<? require("handstestlogic.php")?>
 <form method="POST" >
    <input name="phone" placeholder="Укажите номер телефона" class="textbox" type="text" required />
-   <input name="submit" class="button" type="submit" value="Отправить" />
+   <input name="submit" class="button" type="submit" value="  Отправить" />
 </form>
 <div class="phoneOut" >
 <div>Строка поиска:</br> <i>	<?=$out?></i></div>
@@ -21,4 +21,5 @@
  <div style="clear: left"></div>
 	</div>
 </body>
-</html>
+</html> 
+ 

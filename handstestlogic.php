@@ -1,16 +1,16 @@
 <?php
-//// Функции
+//// Р¤СѓРЅРєС†РёСЏ
 
 function VerifyPhone($phone) 
 {		
 	return $phone=trim(htmlspecialchars($phone,ENT_QUOTES));	
 }
 
-//// Функция с регулярным выражением
+//// Г”ГіГ­ГЄГ¶ГЁГї Г± Г°ГҐГЈГіГ«ГїГ°Г­Г»Г¬ ГўГ»Г°Г Г¦ГҐГ­ГЁГҐГ¬
 function ParsePhone($phone)
 {
 	$tr=preg_match_all("#[0-9\s-\]\[()+]{7,19}#si",$phone,$phone_array);
-	if ($tr==0) return $res=array("В строке нет телефонов");
+	if ($tr==0) return $res=array("Г‚ Г±ГІГ°Г®ГЄГҐ Г­ГҐГІ ГІГҐГ«ГҐГґГ®Г­Г®Гў");
 
 foreach($phone_array[0] as $value)
 {
@@ -30,7 +30,7 @@ foreach($phone_array[0] as $value)
 	return $res;
 }
 
-//// Функция методом перебора
+//// Г”ГіГ­ГЄГ¶ГЁГї Г¬ГҐГІГ®Г¤Г®Г¬ ГЇГҐГ°ГҐГЎГ®Г°Г 
 function ParsePhoneV($phone)
 {
 $strlen=iconv_strlen($phone);
@@ -40,7 +40,7 @@ for ($i = 0; $i < $strlen; $i++) {
    elseif (!in_array( $phone{$i},array(" ","+","-","(",")","[","]")) && $temp ) {$resAr[]=$temp;$temp=null;}
 }
 if($temp) $resAr[]=$temp;
-if(!$resAr) return $res=array("В строке нет телефонов");
+if(!$resAr) return $res=array("Г‚ Г±ГІГ°Г®ГЄГҐ Г­ГҐГІ ГІГҐГ«ГҐГґГ®Г­Г®Гў");
 foreach ($resAr as $value)
 {
 	$strlen=strlen($value);
@@ -57,7 +57,7 @@ foreach ($resAr as $value)
 	return $res;
 }
 /////
-$res="Введите строку для проверки";
+$res="Г‚ГўГҐГ¤ГЁГІГҐ Г±ГІГ°Г®ГЄГі Г¤Г«Гї ГЇГ°Г®ГўГҐГ°ГЄГЁ";
 $resV="";
 if($_POST["phone"]) 
 {
@@ -66,13 +66,13 @@ if($_POST["phone"])
 
 $start = microtime(true); 
 	$resAr=ParsePhone($phone);
-$res= 'Время выполнения функции с регулярным выражением (ParsePhone) :  '.(microtime(true) - $start).' сек.</br>';		
-	if($resAr) $res.="Результат: </br>". implode("</br>",$resAr );	
+$res= 'Г‚Г°ГҐГ¬Гї ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї ГґГіГ­ГЄГ¶ГЁГЁ Г± Г°ГҐГЈГіГ«ГїГ°Г­Г»Г¬ ГўГ»Г°Г Г¦ГҐГ­ГЁГҐГ¬ (ParsePhone) :  '.(microtime(true) - $start).' Г±ГҐГЄ.</br>';		
+	if($resAr) $res.="ГђГҐГ§ГіГ«ГјГІГ ГІ: </br>". implode("</br>",$resAr );	
 
 $start = microtime(true); 
 	$resArV=ParsePhoneV($phone);
-$resV=  'Время выполнения функции методом перебора (ParsePhoneV): '.(microtime(true) - $start).' сек.</br>';		
-if($resArV) $resV.="Результат: </br>". implode("</br>",$resArV);
+$resV=  'Г‚Г°ГҐГ¬Гї ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї ГґГіГ­ГЄГ¶ГЁГЁ Г¬ГҐГІГ®Г¤Г®Г¬ ГЇГҐГ°ГҐГЎГ®Г°Г  (ParsePhoneV): '.(microtime(true) - $start).' Г±ГҐГЄ.</br>';		
+if($resArV) $resV.="ГђГҐГ§ГіГ«ГјГІГ ГІ: </br>". implode("</br>",$resArV);
 
 }
 ?>

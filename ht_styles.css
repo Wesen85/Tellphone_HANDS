@@ -1,4 +1,4 @@
-/* Базовые стили формы */
+п»ї/* Р‘Р°Р·РѕРІС‹Рµ СЃС‚РёР»Рё С„РѕСЂРјС‹ */
 form{
   margin:0 auto;
   max-width:80%;
@@ -10,7 +10,7 @@ form{
   -webkit-box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);        
   box-shadow:  0px 0px 15px 0px rgba(0, 0, 0, .45);  
 }
-/* Стили полей ввода */
+/* РЎС‚РёР»Рё РїРѕР»РµР№ РІРІРѕРґР° */
 .textbox{
   height:50px;
   width:100%;
@@ -28,7 +28,7 @@ form{
    border:rgba(24,149,215,1) 2px solid;
    color:rgba(24,149,215,1);
 }
-/* Стили текстового поля */
+/* РЎС‚РёР»Рё С‚РµРєСЃС‚РѕРІРѕРіРѕ РїРѕР»СЏ */
 .message{
     background: rgba(255, 255, 255, 0.4); 
     width:100%;
@@ -45,7 +45,7 @@ form{
     margin-bottom:30px;
     overflow:hidden;
 }
-/* Базовые стили кнопки */
+/* Р‘Р°Р·РѕРІС‹Рµ СЃС‚РёР»Рё РєРЅРѕРїРєРё */
 .button{
   height:50px;
   width:100%;
@@ -61,7 +61,7 @@ form{
   transition:background .4s;
   cursor:pointer;
 }
-/* Изменение фона кнопки при наведении */
+/* РР·РјРµРЅРµРЅРёРµ С„РѕРЅР° РєРЅРѕРїРєРё РїСЂРё РЅР°РІРµРґРµРЅРёРё */
 .button:hover{
   background:#80b438;
 }
@@ -85,4 +85,5 @@ form{
 	float:left;
 min-width:150px;
 padding:10px;
+
 }

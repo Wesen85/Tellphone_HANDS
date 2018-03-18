@@ -1,4 +1,4 @@
-<!doctype html>
+п»ї<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="windows-1251">
@@ -10,11 +10,11 @@
 <body>
 <? require("handstestlogic.php")?>
 <form method="POST" >
-   <input name="phone" placeholder="Укажите номер телефона" class="textbox" type="text" required />
-   <input name="submit" class="button" type="submit" value="  Отправить" />
+   <input name="phone" placeholder="РЈРєР°Р¶РёС‚Рµ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°" class="textbox" type="text" required />
+   <input name="submit" class="button" type="submit" value="  РћС‚РїСЂР°РІРёС‚СЊ" />
 </form>
 <div class="phoneOut" >
-<div>Строка поиска:</br> <i>	<?=$out?></i></div>
+<div>РЎС‚СЂРѕРєР° РїРѕРёСЃРєР°:</br> <i>	<?=$out?></i></div>
 	
 <div class="resultFB" ><?=$res?></div>
 <div class="resultFB" ><?=$resV?></div>

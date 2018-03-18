@@ -1,0 +1,75 @@
+﻿За начальные условия возьмем, что номера телефонов будут в формате 8KKKNNNNNNN (например, 89031110022)
+Также, если учесть что у одного клиента может быть несколько номеров, введем поле "основной номер".
+
+Структура БД будет:
+Тип БД - InnoDB 
+
+--
+-- Структура таблицы `users`
+--
+-- 
+`user_id` int(11) AUTO_INCREMENT, PRIMARY KEY - идентификатор аккаунта клиента, уникальный Id 
+`user_act` tinyint(2) DEFAULT '0' - статус аккаунта (0- не подтвержден, 1- активный, 2-блокированный, 3- подозрительный...10 - удален пользователем)
+`user_date` timestamp DEFAULT CURRENT_TIMESTAMP - время создания аккаунта
+`user_name` varchar(128) NOT NULL - ФИО клиента
+`user_login` varchar(32) NOT NULL - логин
+`user_pass` varchar(32) NOT NULL - пароль в хешированном виде
+`user_adress` varchar(512) - адрес
+`user_email` varchar(128) - email
+`user_desc` text - описание, заметки
+
+
+-
+-- Структура таблицы `users_phone`
+--
+-- 
+`phone_id` int(11) AUTO_INCREMENT, PRIMARY KEY -  идентификатор телефонного номера, уникальный Id
+`user_id` int(11) NOT NULL, INDEX - идентификатор аккаунта клиента
+`phone_number` decimal(11,0) NOT NULL, INDEX - номер телефона
+`phone_act` tinyint(2) DEFAULT '0' - статуст номера (0 - не подтвержден, 1- активный, 2- блокированный.... 10- удален пользователем)
+`phone_prime` tinyint(2) DEFAULT '0' - основной номер (1 - основной, 0 - не основной)
+`phone_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP - время регистрации номера
+
+Для контроля "основного номера", можно создать уникальное сочетание полей: User_id, phone_number, phone_prime
+
+-
+-- Структура таблицы `orders`
+--
+-- 
+`order_id` int(11) AUTO_INCREMENT, PRIMARY KEY -  идентификатор заказа, уникальный Id
+`order_act` tinyint(4) DEFAULT '0'- статус заказа ( 0 - не подтвержден, 1 - новый, 2- в обработке, 3 - в доставке ...... 10- отмена заказа)
+`order_date` timestamp DEFAULT CURRENT_TIMESTAMP - дата регистрации заказа
+
+`user_id` int(11) - идентификатор аккаунта клиента
+`order_phone` varchar(128) - телефон (user input)
+`order_desc` text  - описание заказа
+`order_summ` float  - сумма заказа
+
+-
+-- Структура таблицы `orders_phone`
+--
+-- 
+`orders_phone_id` int(11) AUTO_INCREMENT, PRIMARY KEY -  идентификатор телефонного номера заказа, уникальный Id
+`order_id` int(11) NOT NULL, INDEX - идентификатор заказа
+`orders_phone_number` decimal(11,0) NOT NULL, INDEX - номер телефона
+`orders_phone_act` tinyint(2) DEFAULT '0' - статуст номера (0 - не подтвержден, 1- активный)
+
+Предположим, что заказы поступают без привязки к клиенту (или не всегда от зарегистрированных клиентов), а поле order_phone - это тот самый полный user imput.
+(т.к. подразумевается, что идет клиентоориентированность, то на всякий случай лучше сохранить именно user input)
+После поступления заказа, поле order_phone обрабатывается и из него вытаскиваются номера телефонов и записываются в orders_phone, далее каждый номер сравнивается 
+с имеющимися в БД и менеджеру предлагается привязать заказ к определенному клиенту.  
+
+1. Выбор данных клиентов по номеру телефона клиента( в начале будут переданы данные клиента, у которого этот номер основной, после - данные клиентов с дополнительным номером):
+
+SELECT users.* FROM users WHERE users.user_act=1 AND users.user_id IN (SELECT users_phone.user_id FROM users_phone WHERE users_phone.phone_number = {8KKKXXXXXXX} 
+AND users_phone.phone_act =1 ORDER BY users_phone.phone_prime DESC, users_phone.phone_date DESC)
+
+
+2. Выбор данных по клиента по номеру заказа 
+
+SELECT users.* FROM users WHERE users.user_act=1 AND users.user_id IN (SELECT users_phone.user_id FROM orders_phone LEFT JOIN users_phone ON 
+users_phone.phone_number=orders_phone.orders_phone_number WHERE orders_phone.order_id={номер заказа})
+
+3. Выбор данных по заказам со схожими номерами
+
+SELECT * FROM orders WHERE orders.order_id IN (SELECT DISTINCT(orders_phone.order_id) FROM orders_phone WHERE orders_phone.orders_phone_number = {8KKKXXXXXXX}
